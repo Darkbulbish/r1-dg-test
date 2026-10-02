@@ -21448,14 +21448,6 @@ MapDecorator.prototype = {
 							this.game.map.entities.addEntity(eyeMain);
 							this.game.scheduler.add(eyeMain, true);
 						}
-							var mainEnemy = new EnemyFactory.newSpider(
-								this.game,
-								new Vector2(mx, my)
-							);
-							this.game.map.tiles[mx][my].addEntity(mainEnemy);
-							this.game.map.entities.addEntity(mainEnemy);
-							this.game.scheduler.add(mainEnemy, true);
-						}
 					}
 				}
 			}
