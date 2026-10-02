@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>DG R1 TEST Eyes Only</title>
+<title>DG R1 TEST Eyes v101</title>
 <style>
 html, body { margin:0; padding:0; background:#000; overflow:hidden; height:100%; }
 #stage { position:absolute; left:0; top:0; width:240px; height:282px; }
@@ -16952,7 +16952,13 @@ var EnemyFactory = {
 	newFloatingEye: function(game, position) {
 
 		//Create the entity
-		var entity = new Entity(game, "Floating Eye", "skeleton_right.png", 1000);
+		// v101: Register custom texture in PIXI cache before creating entity
+		try {
+			if (!PIXI.TextureCache["floating_eye_custom"]) {
+				PIXI.TextureCache["floating_eye_custom"] = PIXI.Texture.fromImage(FLOATING_EYE_URI);
+			}
+		} catch(e) {}
+		var entity = new Entity(game, "Floating Eye", "floating_eye_custom", 1000);
 
 		//Give the entity a health of 100 points
 		entity.addComponent(new Health(45));
@@ -16984,10 +16990,7 @@ var EnemyFactory = {
 			"The skeleton is a very dangerous but unstable enemy. If you stab just right his bones will collapse."
 		));
 
-		// v99: Use embedded pixel art via setTexture (data URI)
-		try {
-			entity.sprite.setTexture(PIXI.Texture.fromImage(FLOATING_EYE_URI));
-		} catch(e) {}
+		// v101: sprite set via TextureCache above, no override needed
 		//Return the entity
 		return entity;
 
