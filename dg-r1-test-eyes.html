@@ -21437,6 +21437,17 @@ MapDecorator.prototype = {
 				for(var my = mainRoom.y1; my < mainRoom.y2; my++) {
 					if(this.game.map.tiles[mx][my].type === 2) {
 						if(false) { // TEST: disabled
+						}
+						// TEST: Floating Eye in main rooms, 20%
+						if(Utils.randomNumber(0, 100) >= 80) {
+							var eyeMain = new EnemyFactory.newFloatingEye(
+								this.game,
+								new Vector2(mx, my)
+							);
+							this.game.map.tiles[mx][my].addEntity(eyeMain);
+							this.game.map.entities.addEntity(eyeMain);
+							this.game.scheduler.add(eyeMain, true);
+						}
 							var mainEnemy = new EnemyFactory.newSpider(
 								this.game,
 								new Vector2(mx, my)
