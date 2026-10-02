@@ -24426,10 +24426,10 @@ module.exports = UI;
         // Show next in queue
         if (toastQueue.length > 0) {
           var next = toastQueue.shift();
-          showLootToast(next.text, next.color);
+          showLootToast(next.text, next.color, next.durationMs);
         }
       }, 400);
-    }, 1200);
+    }, _dur);;
   }
 
   function clearPotionState() {
