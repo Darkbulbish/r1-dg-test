@@ -23845,7 +23845,7 @@ module.exports = UI;
             if (_dt && _dt.explored) _dbgCount++;
           }
         }
-        showLootToast('DBG F' + floor + ': ' + _dbgCount + ' explored after gen', '#ff00ff');
+        showLootToast('DBG F' + floor + ': ' + _dbgCount + ' explored after gen', '#ff00ff', 20000);
       } catch(_dbgE) {}
       // Move the existing knight to the new entrance; HP and potions carry over.
       var start = g.map.entrance;
@@ -23855,7 +23855,7 @@ module.exports = UI;
       pp.position.x = start.x;
       pp.position.y = start.y;
       try {
-        showLootToast('DBG player (' + _oldX + ',' + _oldY + ')->(' + start.x + ',' + start.y + ')', '#00ffff');
+        showLootToast('DBG player (' + _oldX + ',' + _oldY + ')->(' + start.x + ',' + start.y + ')', '#00ffff', 20000);
       } catch(_dbgE2) {}
       var ts = g.map.settings.tileSize;
       if (g.player.sprite && g.player.sprite.position) {
@@ -24392,7 +24392,7 @@ module.exports = UI;
   var lootToast = null;
   var toastQueue = [];
   var toastShowing = false;
-  function showLootToast(text, color) {
+  function showLootToast(text, color, durationMs) {
     // If a toast is already showing, queue this one
     if (toastShowing) {
       toastQueue.push({text: text, color: color});
@@ -24415,7 +24415,8 @@ module.exports = UI;
     lootToast.textContent = text;
     lootToast.style.opacity = '1';
     lootToast.style.display = 'block';
-    // Show for 1.2s, then fade and show next in queue
+    // Show for durationMs (default 1.2s), then fade and show next in queue
+    var _dur = (typeof durationMs === 'number' && durationMs > 0) ? durationMs : 1200;
     if (lootToast._timer) clearTimeout(lootToast._timer);
     lootToast._timer = setTimeout(function() {
       lootToast.style.opacity = '0';
