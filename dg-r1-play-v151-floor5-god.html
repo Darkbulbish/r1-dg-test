@@ -17044,9 +17044,10 @@ var EnemyFactory = {
 };
 
 //Export the Browserify module
-//Export the Browserify module
 module.exports = EnemyFactory;
-try { window.EnemyFactory = EnemyFactory; } catch(_e) {} // v151: expose for layer/moveBehaviours.js":9,"../gameobjects/components/canfight.js":10,"../gameobjects/components/canopen.js":11,"../gameobjects/components/collide.js":12,"../gameobjects/components/health.js":13,"../gameobjects/components/movement.js":17,"../gameobjects/components/position.js":18,"../gameobjects/components/tooltip.js":19,"../gameobjects/components/weapon.js":20,"../gameobjects/entity.js":21}],7:[function(require,module,exports){
+try { window.EnemyFactory = EnemyFactory; } catch(_e) {}
+
+},{"../gameobjects/behaviours/moveBehaviours.js":9,"../gameobjects/components/canfight.js":10,"../gameobjects/components/canopen.js":11,"../gameobjects/components/collide.js":12,"../gameobjects/components/health.js":13,"../gameobjects/components/movement.js":17,"../gameobjects/components/position.js":18,"../gameobjects/components/tooltip.js":19,"../gameobjects/components/weapon.js":20,"../gameobjects/entity.js":21}],7:[function(require,module,exports){
 //Because Browserify encapsulates every module, use strict won't apply to the global scope and break everything
 'use strict';
 
@@ -24169,7 +24170,6 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
         altarTouchedWithStone = false;
         try {
           if (altarSprite && g && g.world) g.world.removeChild(altarSprite);
-          // Remove blocker
           if (altarBlocker && g && g.map && altarPos) {
             var tile = g.map.tiles[altarPos.x] && g.map.tiles[altarPos.x][altarPos.y];
             if (tile) {
@@ -24179,7 +24179,6 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
           }
         } catch(_e) {}
         altarPlaced = false;
-        // v151: spawn boss via exposed EnemyFactory
         try {
           if (window.EnemyFactory && g && altarPos) {
             var boss = window.EnemyFactory.newRabbitLord(g, {x: altarPos.x, y: altarPos.y});
@@ -24204,7 +24203,6 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
   function checkQuest() {
     var g = game();
     if (!g || !g.player || won) return;
-    // v151: reset muahaha when player leaves altar area
     try {
       if (altarPlaced && altarPos) {
         var _pp = playerTile(g);
