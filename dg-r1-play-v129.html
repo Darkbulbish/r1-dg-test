@@ -24156,7 +24156,7 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
             won = true;
             stopWalk();
             logMsg('The Rabbit is dead...the R1 is forever');
-            showLootToast('The Rabbit is dead...the R1 is forever', '#f1c40f');
+            showLootToast('The Rabbit is dead...the R1 is forever', '#f1c40f', null, 2000);
             sfx('fanfare');
             return;
           } else if (altarPlaced && !rabbitLordSpawned) {
@@ -24191,7 +24191,7 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
           var _now = Date.now();
           if (!window._dgLastMuahaha || (_now - window._dgLastMuahaha) > 5000) {
             window._dgLastMuahaha = _now;
-            showLootToast('Muahaha! You will have to summon me to fight me!', '#e74c3c');
+            showLootToast('Muahaha! You will have to summon me to fight me!', '#e74c3c', null, 2000);
             logMsg('Muahaha! You will have to summon me to fight me!');
           }
         }
@@ -24207,7 +24207,7 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
           if (_fresh && !altarTouchedWithStone) {
             // First touch: warn
             altarTouchedWithStone = true;
-            showLootToast('The altar hungers... touch it again to summon Big Red', '#e67e22');
+            showLootToast('The altar hungers... touch it again to summon Big Red', '#e67e22', null, 2000);
           } else if (_fresh && altarTouchedWithStone) {
             // Second touch: SUMMON!
             rabbitLordSpawned = true;
@@ -24249,7 +24249,7 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
                 g.map.entities.addEntity(boss);
               }
             } catch(be) {}
-            showLootToast('The Rabbit Lord appears!', '#e74c3c');
+            showLootToast('The Rabbit Lord appears!', '#e74c3c', null, 2000);
             sfx('fanfare');
             renderSlots();
           }
@@ -24496,7 +24496,7 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
       if (name === "Rabbit Lord" && !rabbitLordDefeated) {
         rabbitLordDefeated = true;
         logMsg('The Rabbit is slain...you can now finally escape');
-        showLootToast('The Rabbit is slain...you can now finally escape', '#f1c40f');
+        showLootToast('The Rabbit is slain...you can now finally escape', '#f1c40f', null, 2000);
         sfx('fanfare');
       }
     } catch(e) {}
@@ -24839,7 +24839,7 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
           try { showLootToast("The Summoning Stone... it's your key to summoning the Rabbit Lord. The altar awaits.", '#8e44ad', null, 4000); } catch(_e) {} // v120: stone pickup story
           gear.key = 1; // Use key slot for stone
           logMsg('You find the Summoning Stone!');
-          showLootToast('Summoning Stone!', '#e74c3c');
+          showLootToast('Summoning Stone!', '#e74c3c', null, 2000);
           sfx('pickup');
           renderSlots();
         } else {
