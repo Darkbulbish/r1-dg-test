@@ -24194,15 +24194,9 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
         gear.key = 0;
         altarTouchedWithStone = false;
         /* v169: remove altar now, spawn boss after delay at fresh exit tile */
+        /* v172: remove altar visual only, KEEP blocker until boss dead */
         try {
           if (altarSprite && g && g.world) g.world.removeChild(altarSprite);
-          if (altarBlocker && g && g.map && altarPos) {
-            var tile = g.map.tiles[altarPos.x] && g.map.tiles[altarPos.x][altarPos.y];
-            if (tile) {
-              var idx = tile.entities.indexOf(altarBlocker);
-              if (idx >= 0) tile.entities.splice(idx, 1);
-            }
-          }
         } catch(_e) {}
         altarPlaced = false;
         altarSprite = null;
@@ -25203,8 +25197,10 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
       var t = screenToTile(clientX, clientY);
       var p = playerTile(g);
       // v150: tapping the altar tile = bump (collision blocks entry)
+      // v172: return after altar bump, don't also move
       if (t && altarPlaced && altarPos && t.x === altarPos.x && t.y === altarPos.y) {
         try { altarBump(); } catch(_e) {}
+        return;
       }
       if (t && p) {
         var dx = t.x - p.x, dy = t.y - p.y;
