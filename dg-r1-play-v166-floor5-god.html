@@ -24171,6 +24171,18 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
         hasSummoningStone = false;
         gear.key = 0;
         altarTouchedWithStone = false;
+        /* v166: derive spawn tile from altar sprite's actual position */
+        var spawnTile = null;
+        try {
+          if (altarSprite) {
+            spawnTile = {
+              x: Math.round(altarSprite.position.x / 16),
+              y: Math.round(altarSprite.position.y / 16)
+            };
+          } else if (altarPos) {
+            spawnTile = {x: altarPos.x, y: altarPos.y};
+          }
+        } catch(_e0) {}
         try {
           if (altarSprite && g && g.world) g.world.removeChild(altarSprite);
           if (altarBlocker && g && g.map && altarPos) {
@@ -24183,15 +24195,14 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
         } catch(_e) {}
         altarPlaced = false;
         try {
-          if (window.EnemyFactory && g && altarPos) {
-            var boss = window.EnemyFactory.newRabbitLord(g, {x: altarPos.x, y: altarPos.y});
-            bossRef = boss; /* v166: store direct reference */
-            /* v160: let game's addEntity position the sprite natively */
-            if (g.map.tiles[altarPos.x] && g.map.tiles[altarPos.x][altarPos.y]) {
-              g.map.tiles[altarPos.x][altarPos.y].addEntity(boss);
+          if (window.EnemyFactory && g && spawnTile) {
+            var boss = window.EnemyFactory.newRabbitLord(g, {x: spawnTile.x, y: spawnTile.y});
+            if (g.map.tiles[spawnTile.x] && g.map.tiles[spawnTile.x][spawnTile.y]) {
+              g.map.tiles[spawnTile.x][spawnTile.y].addEntity(boss);
             }
             if (g.map.entities) g.map.entities.addEntity(boss);
             if (g.scheduler) g.scheduler.add(boss, true);
+            bossRef = boss;
           }
         } catch(_be) {}
         showLootToast('The Rabbit Lord appears!', '#c0392b', null, 2500);
@@ -24203,13 +24214,29 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
   function checkQuest() {
     var g = game();
     if (!g || !g.player || won) return;
-    /* v166: sync boss sprite via direct ref */
     try {
       if (bossRef) {
         var _pos = bossRef.getComponent("position");
         if (_pos && _pos.position && bossRef.sprite) {
           bossRef.sprite.position.x = _pos.position.x * 16;
           bossRef.sprite.position.y = _pos.position.y * 16;
+        }
+      }
+    } catch(_e2) {}
+    /* v165: sync boss sprite to logical position */
+    try {
+      if (rabbitLordSpawned && g.map && g.map.entities) {
+        var _ents = g.map.entities.entities || [];
+        for (var _ei = 0; _ei < _ents.length; _ei++) {
+          var _e = _ents[_ei];
+          if (_e && _e.name === "Rabbit Lord") {
+            var _pos = _e.getComponent("position");
+            if (_pos && _pos.position && _e.sprite) {
+              _e.sprite.position.x = _pos.position.x * 16;
+              _e.sprite.position.y = _pos.position.y * 16;
+            }
+            break;
+          }
         }
       }
     } catch(_e2) {}
@@ -24686,7 +24713,7 @@ if ((window.__dgFloor || 1) === 2) { _smsg("Keep climbing."); _smsg("Bones rattl
   var altarPlaced = false;
   var altarPos = null;
   var rabbitLordSpawned = false;
-  var bossRef = null; /* v166: direct ref to boss entity */
+  var bossRef = null;
   var rabbitLordDefeated = false;
   var _wasAdjacentToAltar = false; // v141: declared (was implicit global, broke in strict mode)
   var altarTouchedWithStone = false; // v120: two-touch summon
